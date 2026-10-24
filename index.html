@@ -135,43 +135,42 @@
   .note time { font: 400 .9rem/1.4 var(--fell-sc); letter-spacing: .16em; color: var(--rose); }
   .note h3 { font: italic 500 1.32rem/1.25 var(--serif); }
   .note p { font: italic 400 .98rem/1.45 var(--fell); color: var(--ink-soft); }
-  .vig { display: block; width: 100%; max-width: 210px; height: auto; overflow: visible; margin-bottom: 8px; }
+  .vig { display: block; width: 100%; max-width: 220px; height: auto; overflow: visible; margin-bottom: 8px; }
+  /* each engraving draws itself when its moment comes into view, then one quiet detail keeps moving */
+  .vig .d { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 2.2s ease-in-out; }
+  .seen .vig .d { stroke-dashoffset: 0; }
+  .vig .f, .vig .nt { opacity: 0; transition: opacity 1.2s ease 1.6s; }
+  .seen .vig .f { opacity: 1; }
   .vig * { animation-play-state: paused; }
-  .stop.reached .vig * { animation-play-state: running; }
-  .vig .walk { animation: walk 7.2s linear infinite; }
-  @keyframes walk { 0% { translate: 0 0; opacity: 0; } 8%, 86% { opacity: 1; } 100% { translate: 86px 0; opacity: 0; } }
-  .vig .aisle { animation: aisle 6s ease-in-out infinite; }
-  @keyframes aisle { 0% { translate: 0 0; } 65%, 100% { translate: 58px 0; } }
-  .vig .bell { transform-box: fill-box; transform-origin: 50% 0; animation: swing 1.1s ease-in-out infinite alternate; }
-  @keyframes swing { from { rotate: -16deg; } to { rotate: 16deg; } }
-  .vig .ringL { animation: closeL 3s ease-in-out infinite alternate; }
-  .vig .ringR { animation: closeR 3s ease-in-out infinite alternate; }
-  @keyframes closeL { to { translate: 7px 0; } }
-  @keyframes closeR { to { translate: -7px 0; } }
-  .vig .beat { transform-box: fill-box; transform-origin: center; animation: beat 1.4s ease-in-out infinite; }
-  @keyframes beat { 15% { scale: 1.25; } 30% { scale: 1; } 45% { scale: 1.15; } 60% { scale: 1; } }
-  .vig .twinkle path, .vig .tw { animation: tw 1.6s ease-in-out infinite alternate; }
-  @keyframes tw { from { opacity: .25; } to { opacity: 1; } }
-  .vig .knife { transform-box: fill-box; transform-origin: 100% 0; animation: cut 3s ease-in-out infinite; }
-  @keyframes cut { 0%, 100% { rotate: -28deg; } 40%, 62% { rotate: 0deg; } }
-  .vig .glL, .vig .glR { transform-box: fill-box; transform-origin: 50% 100%; animation: clinkL 2.6s ease-in-out infinite; }
-  .vig .glR { animation-name: clinkR; }
-  @keyframes clinkL { 0%, 30%, 75%, 100% { rotate: 0deg; } 45%, 58% { rotate: 12deg; } }
-  @keyframes clinkR { 0%, 30%, 75%, 100% { rotate: 0deg; } 45%, 58% { rotate: -12deg; } }
-  .vig .burst { opacity: 0; animation: burst 2.6s ease-out infinite; }
-  @keyframes burst { 0%, 46% { opacity: 0; } 52% { opacity: 1; } 70%, 100% { opacity: 0; } }
-  .vig .bub { animation: bub 1.8s linear infinite; }
+  .seen .vig * { animation-play-state: running; }
+  .vig .leafL, .vig .leafR { transform-box: fill-box; transition: scale 2.4s cubic-bezier(.5, 0, .2, 1) 1.8s; }
+  .vig .leafL { transform-origin: 0 50%; }
+  .vig .leafR { transform-origin: 100% 50%; }
+  .seen .vig .leafL, .seen .vig .leafR { scale: .22 1; }
+  .vig .glow { animation: breathe 3.5s ease-in-out infinite alternate; }
+  @keyframes breathe { from { opacity: .55; } to { opacity: 1; } }
+  .vig .bellL, .vig .bellR { transform-box: fill-box; transform-origin: 50% 0; animation: toll 2.6s ease-in-out infinite alternate; }
+  .vig .bellR { animation-delay: -1.3s; }
+  @keyframes toll { from { rotate: -5deg; } to { rotate: 5deg; } }
+  .vig .gleam { animation: gleam 3.2s linear infinite; }
+  @keyframes gleam { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  .vig .tw { animation: tw 1.8s ease-in-out infinite alternate; }
+  @keyframes tw { from { opacity: .2; } to { opacity: 1; } }
+  .vig .lantern { transform-box: view-box; transform-origin: var(--o); animation: lantern 3s ease-in-out infinite alternate; }
+  @keyframes lantern { from { rotate: -4deg; } to { rotate: 4deg; } }
+  .vig .toastL, .vig .toastR { transform-box: fill-box; transform-origin: 50% 100%; animation: toastL 3.4s ease-in-out infinite; }
+  .vig .toastR { animation-name: toastR; }
+  @keyframes toastL { 0%, 100% { rotate: 0deg; } 50% { rotate: 2.5deg; } }
+  @keyframes toastR { 0%, 100% { rotate: 0deg; } 50% { rotate: -2.5deg; } }
+  .vig .bub { animation: bub 2.2s linear infinite; }
   @keyframes bub { from { translate: 0 0; opacity: 1; } to { translate: 0 -12px; opacity: 0; } }
-  .vig .dance { transform-box: fill-box; transform-origin: 50% 100%; animation: sway 1.6s ease-in-out infinite alternate; }
-  @keyframes sway { from { rotate: -7deg; translate: -3px 0; } to { rotate: 7deg; translate: 3px 0; } }
-  .vig .nt { animation: float 3s linear infinite; }
-  @keyframes float { from { translate: 0 0; opacity: 0; } 15% { opacity: 1; } to { translate: 6px -22px; opacity: 0; } }
-  .vig .ball { transform-box: fill-box; transform-origin: center; animation: spin 4s linear infinite; }
-  @keyframes spin { to { rotate: 360deg; } }
-  .vig .spark { transform-box: fill-box; transform-origin: center; animation: spark .5s steps(2) infinite; }
-  @keyframes spark { 50% { scale: 1.35; opacity: .5; } }
-  .vig .away { animation: away 5s ease-in infinite; }
-  @keyframes away { 0%, 20% { translate: 0 0; opacity: 1; } 85% { opacity: 1; } 100% { translate: 92px 0; opacity: 0; } }
+  .seen .vig .nt { opacity: 1; transition: opacity .9s ease; }
+  .seen .vig .nt:nth-of-type(1) { transition-delay: 1.4s; } .seen .vig .nt:nth-of-type(2) { transition-delay: 1.9s; } .seen .vig .nt:nth-of-type(3) { transition-delay: 2.4s; }
+  .seen .vig .nt:nth-of-type(4) { transition-delay: 2.9s; } .seen .vig .nt:nth-of-type(5) { transition-delay: 3.4s; }
+  .vig .nt { animation: drift 3s ease-in-out infinite alternate; }
+  @keyframes drift { to { translate: 0 -3px; } }
+  .vig .away { animation: away 9s ease-in-out infinite; }
+  @keyframes away { 0%, 15% { translate: 0 0; opacity: 1; } 80% { opacity: 1; } 95% { translate: 64px 0; opacity: 0; } 100% { translate: 0 0; opacity: 0; } }
   .interlude { min-height: 360px; display: grid; align-items: center; }
   .interlude .label { justify-self: start; font: italic 400 1.15rem/1.35 var(--fell); max-width: 17ch; text-align: left; margin-left: 64px; }
   @media (min-width: 760px) {
@@ -198,6 +197,7 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after { animation: none !important; transition-duration: .01s !important; transition-delay: 0s !important; }
+    .vig .d { stroke-dashoffset: 0; } .vig .f, .vig .nt { opacity: 1; }
   }
 </style>
 <noscript><style>#cover { display: none; } #cover ~ main .hero > * { opacity: 1 !important; }</style></noscript>
@@ -239,10 +239,7 @@
       <g fill="#9a4c52"><circle cx="45" cy="70.5" r="1.3"/><circle cx="66" cy="74.5" r="1.3"/><circle cx="88" cy="76" r="1.3"/><circle cx="110" cy="74.5" r="1.3"/><circle cx="131" cy="70.5" r="1.3"/></g>
       <g fill="none" stroke="#2f2a22" stroke-width="1"><circle cx="162" cy="100" r="11"/><path d="M162 111 V124"/></g>
     </symbol>
-    <g id="fig-dress" stroke="#2f2a22" stroke-width="1" fill="#f8f2e4" stroke-linejoin="round"><circle cy="-21" r="3.6"/><path d="M-6 0 L-2.5 -16 H2.5 L6 0Z"/></g>
-    <g id="fig-suit" stroke="#2f2a22" stroke-width="1" fill="#f8f2e4" stroke-linejoin="round"><circle cy="-21" r="3.6"/><path d="M-3.2 -16 H3.2 V-7 H-3.2Z" fill="#2f2a22"/><path d="M-1.8 -7 V0 M1.8 -7 V0" fill="none"/></g>
-    <g id="fig-groom" stroke="#2f2a22" stroke-width="1" fill="#f8f2e4" stroke-linejoin="round"><circle cy="-21" r="3.6"/><path d="M-3.4 -16 H3.4 V-7 H-3.4Z" fill="#2f2a22"/><path d="M-1.8 -7 V0 M1.8 -7 V0" fill="none"/><circle cx="2" cy="-13.5" r="1.2" fill="#9a4c52" stroke="none"/></g>
-    <g id="fig-bride" stroke="#2f2a22" stroke-width="1" fill="#f8f2e4" stroke-linejoin="round"><path d="M1 -24 Q-8 -16 -11 0" fill="none" stroke-width=".7"/><circle cy="-21" r="3.6"/><path d="M-8 0 L-2.5 -16 H2.5 L8 0Z"/><circle cx="3.5" cy="-11" r="2.1" fill="#9a4c52" stroke="none"/></g>
+    <radialGradient id="warm"><stop offset="0" stop-color="#ecc97e" stop-opacity=".95"/><stop offset="1" stop-color="#ecc97e" stop-opacity="0"/></radialGradient>
     <symbol id="compass" viewBox="-60 -60 120 120">
       <circle r="56" fill="#f8f2e4" stroke="#2f2a22" stroke-width="1.2"/>
       <circle r="51" fill="none" stroke="#2f2a22" stroke-width=".5"/>
@@ -319,51 +316,56 @@
         <svg aria-hidden="true" viewBox="0 0 170 132"><use href="#church"/></svg>
         <p class="label">St Helens RC Church<small>Watford · the ceremony</small></p>
       </div>
-      <article class="stop at-church l"><span class="pin">I</span><div class="note frame"><svg class="vig" viewBox="0 0 160 76" aria-hidden="true"><path d="M4 66 H156" stroke="#2f2a22" stroke-width=".8"/>
-   <g stroke="#2f2a22" stroke-width="1" fill="#f8f2e4" stroke-linejoin="round"><path d="M116 66 V30 L132 18 L148 30 V66Z"/><path d="M126 66 V51 a6 6 0 0 1 12 0 V66" fill="url(#hatch)"/><path d="M132 18 V8 M128 12 H136" fill="none"/></g>
-   <g class="walk"><use href="#fig-dress" x="14" y="66"/></g><g class="walk" style="animation-delay:-2.4s"><use href="#fig-suit" x="14" y="66"/></g><g class="walk" style="animation-delay:-4.8s"><use href="#fig-dress" x="14" y="66"/></g></svg><time>2:30 pm</time><h3>Guests arrive &amp; are seated</h3><p>Find a seat and say your hellos</p></div></article>
-      <article class="stop at-church r"><span class="pin">II</span><div class="note frame"><svg class="vig" viewBox="0 0 160 76" aria-hidden="true"><path d="M4 66 H156" stroke="#2f2a22" stroke-width=".8"/>
-   <path d="M18 69 H118" stroke="#9a4c52" stroke-width="1.4" stroke-dasharray=".1 5" stroke-linecap="round"/>
-   <path d="M86 66 V38 a28 28 0 0 1 56 0 V66" fill="none" stroke="#2f2a22" stroke-width="1"/>
-   <g fill="#9a4c52"><circle cx="88" cy="28" r="1.6"/><circle cx="98" cy="15" r="1.6"/><circle cx="114" cy="10" r="1.6"/><circle cx="130" cy="15" r="1.6"/><circle cx="140" cy="28" r="1.6"/></g>
-   <g class="bell"><path d="M114 14 V17 M114 17 q5 0 5 7 l2 4 h-14 l2 -4 q0 -7 5 -7z" fill="#f8f2e4" stroke="#2f2a22" stroke-width=".9"/><circle cx="114" cy="29.5" r="1.3" fill="#2f2a22"/></g>
-   <use href="#fig-groom" x="126" y="66"/>
-   <g class="aisle"><use href="#fig-bride" x="44" y="66"/></g></svg><time>3:00 pm</time><h3>The wedding ceremony</h3><p>Here comes the bride</p></div></article>
-      <article class="stop at-church l" id="vows"><span class="pin">III</span><div class="note frame"><svg class="vig" viewBox="0 0 160 76" aria-hidden="true">
-   <g class="ringL"><circle cx="66" cy="44" r="15" fill="none" stroke="#a3864d" stroke-width="3.2"/><circle cx="66" cy="44" r="15" fill="none" stroke="#2f2a22" stroke-width=".5"/></g>
-   <g class="ringR"><circle cx="94" cy="44" r="15" fill="none" stroke="#a3864d" stroke-width="3.2"/><circle cx="94" cy="44" r="15" fill="none" stroke="#2f2a22" stroke-width=".5"/><path d="M94 23 l3.5 3.5 l-3.5 4.5 l-3.5 -4.5z" fill="#f8f2e4" stroke="#2f2a22" stroke-width=".7"/></g>
-   <path class="beat" d="M80 10 c-3 -4 -9 -2 -7 3 c1 3 7 7 7 7 s6 -4 7 -7 c2 -5 -4 -7 -7 -3z" fill="#9a4c52"/>
-   <g class="twinkle" stroke="#a3864d" stroke-width=".9"><path d="M40 20 v6 M37 23 h6"/><path d="M122 62 v6 M119 65 h6" style="animation-delay:-.8s"/></g></svg><time>3:30 pm</time><h3>Vows &amp; the exchange of rings</h3><p>Two “I do”s and a few happy tears</p></div></article>
+      <article class="stop at-church l"><span class="pin">I</span><div class="note frame"><svg class="vig" viewBox="0 0 160 80" aria-hidden="true">
+   <ellipse class="f glow" cx="80" cy="52" rx="20" ry="24" fill="url(#warm)"/>
+   <g class="leafL"><path d="M59 72 V39 Q59 21 80 16.5 V72Z" fill="#f8f2e4" stroke="#2f2a22" stroke-width=".6"/><path d="M64 70 V36 M69 70 V27 M74 70 V21" stroke="#2f2a22" stroke-width=".35"/></g>
+   <g class="leafR"><path d="M101 72 V39 Q101 21 80 16.5 V72Z" fill="#f8f2e4" stroke="#2f2a22" stroke-width=".6"/><path d="M86 70 V21 M91 70 V27 M96 70 V36" stroke="#2f2a22" stroke-width=".35"/></g>
+   <path class="d" pathLength="1" d="M50 72 V36 Q50 12 80 7 Q110 12 110 36 V72" fill="none" stroke="#2f2a22" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M56 72 V37 Q56 17 80 12.5 Q104 17 104 37 V72" fill="none" stroke="#2f2a22" stroke-width=".6" stroke-linecap="round" stroke-linejoin="round"/>
+   <path class="d" pathLength="1" d="M38 72 H122 M44 76 H116" fill="none" stroke="#2f2a22" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M80 7 V0 M76.5 2.5 H83.5" fill="none" stroke="#2f2a22" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round"/></svg><time>2:30 pm</time><h3>Guests arrive &amp; are seated</h3><p>Find a seat and say your hellos</p></div></article>
+      <article class="stop at-church r"><span class="pin">II</span><div class="note frame"><svg class="vig" viewBox="0 0 160 80" aria-hidden="true">
+   <g class="bellL"><g transform="translate(64 26) rotate(14)"><path class="d" pathLength="1" d="M0 0 C-7 0 -9 6 -9.5 14 C-10 19 -12 21 -13 23 H13 C12 21 10 19 9.5 14 C9 6 7 0 0 0Z" fill="none" stroke="#2f2a22" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M-10 18 H10" fill="none" stroke="#2f2a22" stroke-width=".5" stroke-linecap="round" stroke-linejoin="round"/><circle class="f" cy="26" r="2" fill="#2f2a22"/></g></g>
+   <g class="bellR"><g transform="translate(96 26) rotate(-14)"><path class="d" pathLength="1" d="M0 0 C-7 0 -9 6 -9.5 14 C-10 19 -12 21 -13 23 H13 C12 21 10 19 9.5 14 C9 6 7 0 0 0Z" fill="none" stroke="#2f2a22" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M-10 18 H10" fill="none" stroke="#2f2a22" stroke-width=".5" stroke-linecap="round" stroke-linejoin="round"/><circle class="f" cy="26" r="2" fill="#2f2a22"/></g></g>
+   <path class="d" pathLength="1" d="M80 18 C72 6 62 11 69 18 C73 22 78 20 80 18 C82 20 87 22 91 18 C98 11 88 6 80 18Z M80 18 L73 34 M80 18 L87 34" fill="none" stroke="#9a4c52" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/>
+   <circle class="f" cx="80" cy="18" r="2.2" fill="#9a4c52"/>
+   <path class="d" pathLength="1" d="M44 66 Q80 54 116 66" fill="none" stroke="#7f8d6b" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M54 62 l-4 -5 M62 59 l-2 -6 M70 57 l-1 -6 M90 57 l1 -6 M98 59 l2 -6 M106 62 l4 -5" fill="none" stroke="#7f8d6b" stroke-width=".7" stroke-linecap="round" stroke-linejoin="round"/></svg><time>3:00 pm</time><h3>The wedding ceremony</h3><p>Here comes the bride</p></div></article>
+      <article class="stop at-church l" id="vows"><span class="pin">III</span><div class="note frame"><svg class="vig" viewBox="0 0 160 80" aria-hidden="true">
+   <path class="d" pathLength="1" d="M70 26 a17 17 0 1 0 0.01 0Z" fill="none" stroke="#a3864d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M92 26 a17 17 0 1 0 0.01 0Z" fill="none" stroke="#a3864d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+   <path class="d" pathLength="1" d="M70 28.5 a14.5 14.5 0 1 0 0.01 0Z" fill="none" stroke="#2f2a22" stroke-width=".45" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M92 28.5 a14.5 14.5 0 1 0 0.01 0Z" fill="none" stroke="#2f2a22" stroke-width=".45" stroke-linecap="round" stroke-linejoin="round"/>
+   <g class="f"><circle class="gleam" cx="70" cy="43" r="17" pathLength="1" fill="none" stroke="#fffaf0" stroke-width="1.3" stroke-dasharray=".06 .94"/><circle class="gleam" cx="92" cy="43" r="17" pathLength="1" fill="none" stroke="#fffaf0" stroke-width="1.3" stroke-dasharray=".06 .94" style="animation-delay:-1.6s"/>
+   <path d="M92 20 l4 4 l-4 5 l-4 -5z M88 24 h8" fill="#f8f2e4" stroke="#2f2a22" stroke-width=".6"/>
+   <g class="tw" stroke="#a3864d" stroke-width=".7" stroke-linecap="round"><path d="M101 16 l3 -3 M102 20 h4 M98 13 v-4"/></g></g></svg><time>3:30 pm</time><h3>Vows &amp; the exchange of rings</h3><p>Two “I do”s and a few happy tears</p></div></article>
       <div class="interlude"><p class="label">by way of the Hertfordshire lanes</p></div>
       <div class="landmark hall">
         <svg aria-hidden="true" viewBox="0 0 180 132"><use href="#hall"/></svg>
         <p class="label">Sarratt Village Hall<small>on the green · the reception</small></p>
       </div>
-      <article class="stop at-hall r"><span class="pin">IV</span><div class="note frame"><svg class="vig" viewBox="0 0 160 76" aria-hidden="true"><path d="M4 66 H156" stroke="#2f2a22" stroke-width=".8"/>
-   <g stroke="#2f2a22" stroke-width="1" fill="#f8f2e4" stroke-linejoin="round"><path d="M108 66 V36 H154 V66Z"/><path d="M104 37 L131 20 L158 37Z" fill="url(#hatch)"/><rect x="125" y="48" width="12" height="18" fill="url(#hatch)"/></g>
-   <path d="M106 39 Q131 50 156 39" fill="none" stroke="#9a4c52" stroke-width=".6"/>
-   <g fill="#a3864d"><circle class="tw" cx="112" cy="41.6" r="1.4"/><circle class="tw" cx="121" cy="44.2" r="1.4" style="animation-delay:-.5s"/><circle class="tw" cx="131" cy="45" r="1.4" style="animation-delay:-1s"/><circle class="tw" cx="141" cy="44.2" r="1.4" style="animation-delay:-.3s"/><circle class="tw" cx="150" cy="41.6" r="1.4" style="animation-delay:-.8s"/></g>
-   <g class="walk"><use href="#fig-suit" x="10" y="66"/></g><g class="walk" style="animation-delay:-2.4s"><use href="#fig-dress" x="10" y="66"/></g><g class="walk" style="animation-delay:-4.8s"><use href="#fig-suit" x="10" y="66"/></g></svg><time>4:30 pm</time><h3>Guests arrive &amp; are welcomed</h3><p>The celebration moves to Sarratt</p></div></article>
-      <article class="stop at-hall l"><span class="pin">V</span><div class="note frame"><svg class="vig" viewBox="0 0 160 76" aria-hidden="true"><path d="M4 66 H156" stroke="#2f2a22" stroke-width=".8"/>
-   <g stroke="#2f2a22" stroke-width="1" fill="#f8f2e4"><rect x="62" y="50" width="36" height="16"/><rect x="68" y="38" width="24" height="12"/><rect x="73" y="28" width="14" height="10"/></g>
-   <path d="M62 54 q3 3 6 0 q3 3 6 0 q3 3 6 0 q3 3 6 0 q3 3 6 0 q3 3 6 0 M68 42 q3 3 6 0 q3 3 6 0 q3 3 6 0 q3 3 6 0" fill="none" stroke="#9a4c52" stroke-width=".7"/>
-   <path d="M80 22 c-1.5 -2 -4.5 -1 -3.5 1.5 c.5 1.5 3.5 3.5 3.5 3.5 s3 -2 3.5 -3.5 c1 -2.5 -2 -3.5 -3.5 -1.5z" fill="#9a4c52"/>
-   <use href="#fig-groom" x="44" y="66"/><use href="#fig-bride" x="116" y="66"/>
-   <g class="knife"><path d="M106 26 L84 40" stroke="#2f2a22" stroke-width="1.4"/><path d="M106 26 L114 21" stroke="#2f2a22" stroke-width="3.2" stroke-linecap="round"/></g></svg><time>5:30 pm</time><h3>The couple arrive &amp; cut the cake</h3><p>The newlyweds make their entrance</p></div></article>
-      <article class="stop at-hall r"><span class="pin">VI</span><div class="note frame"><svg class="vig" viewBox="0 0 160 76" aria-hidden="true"><path d="M28 62 H132" stroke="#2f2a22" stroke-width=".8"/>
-   <g class="glL"><path d="M64 22 h11 l-2 19 q-3.5 3 -7 0z" fill="#f8f2e4" stroke="#2f2a22" stroke-width="1"/><path d="M69.5 43 V60 M64 60 H75" stroke="#2f2a22" stroke-width="1"/><circle class="bub" cx="69" cy="36" r=".9" fill="#a3864d"/><circle class="bub" cx="71" cy="32" r=".8" fill="#a3864d" style="animation-delay:-.7s"/></g>
-   <g class="glR"><path d="M85 22 h11 l-2 19 q-3.5 3 -7 0z" fill="#f8f2e4" stroke="#2f2a22" stroke-width="1"/><path d="M90.5 43 V60 M85 60 H96" stroke="#2f2a22" stroke-width="1"/><circle class="bub" cx="90" cy="35" r=".9" fill="#a3864d" style="animation-delay:-.3s"/><circle class="bub" cx="92" cy="31" r=".8" fill="#a3864d" style="animation-delay:-1.1s"/></g>
-   <g class="burst" stroke="#a3864d" stroke-width="1" stroke-linecap="round"><path d="M80 14 V9 M74 16 L71 12 M86 16 L89 12"/></g>
-   <g stroke="#2f2a22" stroke-width="1" fill="none"><path d="M36 62 V54 M32 54 H40 M36 54 V46"/><circle cx="36" cy="43" r="3.4" fill="url(#hatch)"/><path d="M118 62 l4 -14 l4 14 M120 54 h4"/><circle cx="122" cy="46" r="2.4" fill="#9a4c52" stroke="none"/></g></svg><time>6:00 pm</time><h3>Dinner, speeches &amp; performances</h3><p>Good food and a few surprises</p></div></article>
-      <article class="stop at-hall l"><span class="pin">VII</span><div class="note frame"><svg class="vig" viewBox="0 0 160 76" aria-hidden="true"><path d="M4 66 H156" stroke="#2f2a22" stroke-width=".8"/>
-   <g class="dance"><use href="#fig-groom" x="74" y="66"/><use href="#fig-bride" x="86" y="66"/></g>
-   <g fill="#2f2a22" font-family="Georgia, serif" font-size="13"><text class="nt" x="50" y="44">♪</text><text class="nt" x="104" y="38" style="animation-delay:-1s">♫</text><text class="nt" x="118" y="56" style="animation-delay:-2s">♪</text></g>
-   <g stroke="#2f2a22" stroke-width=".8" fill="#f8f2e4"><path d="M80 2 V8"/><circle class="ball" cx="80" cy="13" r="5" fill="url(#hatch)"/></g></svg><time>8:00 pm</time><h3>The dance floor opens</h3><p>Bring your best moves</p></div></article>
-      <article class="stop at-hall r" id="farewell"><span class="pin">VIII</span><div class="note frame"><svg class="vig" viewBox="0 0 160 76" aria-hidden="true"><path d="M4 66 H156" stroke="#2f2a22" stroke-width=".8"/>
-   <g stroke="#2f2a22" stroke-width="1"><path d="M30 66 L36 34 M128 66 L122 34"/></g>
-   <g class="spark" stroke="#a3864d" stroke-width="1" stroke-linecap="round"><path d="M36 30 v-6 M36 30 l5 -3 M36 30 l-5 -3 M36 30 l5 3 M36 30 l-5 3 M36 30 v5"/></g>
-   <g class="spark" style="animation-delay:-.25s" stroke="#a3864d" stroke-width="1" stroke-linecap="round"><path d="M122 30 v-6 M122 30 l5 -3 M122 30 l-5 -3 M122 30 l5 3 M122 30 l-5 3 M122 30 v5"/></g>
-   <g class="away"><g stroke="#2f2a22" stroke-width="1" fill="#f8f2e4" stroke-linejoin="round"><path d="M52 60 V54 l5 -1 l4 -6 h14 l5 6 h6 q3 0 3 4 V60Z"/><path d="M63 53 l2.5 -4.5 h4.5 v4.5Z M72 53 v-4.5 h3 l3 4.5Z" fill="url(#hatch)" stroke-width=".7"/><circle cx="60" cy="61" r="3.6"/><circle cx="82" cy="61" r="3.6"/></g><path d="M52 56 C46 54 44 60 38 57 M52 58 C47 60 45 64 40 62" fill="none" stroke="#9a4c52" stroke-width=".8"/></g></svg><time>10:00 pm</time><h3>Carriages &amp; a fond farewell</h3><p>Goodnight, with full hearts</p></div></article>
+      <article class="stop at-hall r"><span class="pin">IV</span><div class="note frame"><svg class="vig" viewBox="0 0 160 80" aria-hidden="true">
+   <path class="d" pathLength="1" d="M48 34 L80 12 L112 34 Z" fill="none" stroke="#2f2a22" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M54 72 V34 M106 72 V34" fill="none" stroke="#2f2a22" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M68 72 V46 H92 V72 M80 46 V72" fill="none" stroke="#2f2a22" stroke-width=".7" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M40 72 H120" fill="none" stroke="#2f2a22" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round"/>
+   <g class="f"><circle class="tw" cx="51.8" cy="31.4" r="1.4" fill="#a3864d" style="animation-delay:-0.00s"/><circle class="tw" cx="59.8" cy="25.9" r="1.4" fill="#a3864d" style="animation-delay:-0.31s"/><circle class="tw" cx="67.8" cy="20.4" r="1.4" fill="#a3864d" style="animation-delay:-0.62s"/><circle class="tw" cx="75.8" cy="14.9" r="1.4" fill="#a3864d" style="animation-delay:-0.93s"/><circle class="tw" cx="80.0" cy="12.0" r="1.4" fill="#a3864d" style="animation-delay:-1.24s"/><circle class="tw" cx="84.2" cy="14.9" r="1.4" fill="#a3864d" style="animation-delay:-1.55s"/><circle class="tw" cx="92.2" cy="20.4" r="1.4" fill="#a3864d" style="animation-delay:-1.86s"/><circle class="tw" cx="100.2" cy="25.9" r="1.4" fill="#a3864d" style="animation-delay:-2.17s"/><circle class="tw" cx="108.2" cy="31.4" r="1.4" fill="#a3864d" style="animation-delay:-2.48s"/></g>
+   <path class="d" pathLength="1" d="M36 72 V46 M124 72 V46" fill="none" stroke="#2f2a22" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round"/>
+   <g class="f"><path class="glow" d="M31.5 46 h9 l-1.5 -9 h-6z M119.5 46 h9 l-1.5 -9 h-6z" fill="url(#warm)" stroke="#2f2a22" stroke-width=".7"/><path d="M33 37 l3 -3 l3 3 M121 37 l3 -3 l3 3" fill="none" stroke="#2f2a22" stroke-width=".7"/></g></svg><time>4:30 pm</time><h3>Guests arrive &amp; are welcomed</h3><p>The celebration moves to Sarratt</p></div></article>
+      <article class="stop at-hall l"><span class="pin">V</span><div class="note frame"><svg class="vig" viewBox="0 0 160 80" aria-hidden="true">
+   <path class="d" pathLength="1" d="M48 74 H112 M80 74 V68 M64 68 H96" fill="none" stroke="#2f2a22" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round"/>
+   <path class="d" pathLength="1" d="M56 68 V52 H104 V68 M63 52 V38 H97 V52 M70 38 V26 H90 V38" fill="none" stroke="#2f2a22" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/>
+   <path class="d" pathLength="1" d="M56 55 q2.5 3 5 0 q2.5 3 5 0 q2.5 3 5 0 q2.5 3 5 0 q2.5 3 5 0 q2.5 3 5 0 q2.5 3 5 0 q2.5 3 5 0 q2.5 3 5 0" fill="none" stroke="#9a4c52" stroke-width=".6" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M63 41 q2.5 3 5 0 q2.5 3 5 0 q2.5 3 5 0 q2.5 3 5 0 q2.5 3 5 0 q2.5 3 5 0" fill="none" stroke="#9a4c52" stroke-width=".6" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M70 29 q2.5 3 5 0 q2.5 3 5 0 q2.5 3 5 0 q2.5 3 5 0" fill="none" stroke="#9a4c52" stroke-width=".6" stroke-linecap="round" stroke-linejoin="round"/>
+   <g class="f"><g fill="#f8f2e4" stroke="#9a4c52" stroke-width=".7"><circle cx="76" cy="22" r="3"/><circle cx="84" cy="21" r="3.4"/><circle cx="80" cy="18" r="2.6"/></g><path d="M71 24 q-3 -2 -4 1 M89 23 q3 -2 4 1" fill="none" stroke="#7f8d6b" stroke-width=".7"/>
+   <g class="tw" stroke="#a3864d" stroke-width=".7" stroke-linecap="round"><path d="M100 14 v-5 M97.5 11.5 h5"/></g><g class="tw" stroke="#a3864d" stroke-width=".6" stroke-linecap="round" style="animation-delay:-.9s"><path d="M58 22 v-4 M56 20 h4"/></g></g></svg><time>5:30 pm</time><h3>The couple arrive &amp; cut the cake</h3><p>The newlyweds make their entrance</p></div></article>
+      <article class="stop at-hall r"><span class="pin">VI</span><div class="note frame"><svg class="vig" viewBox="0 0 160 80" aria-hidden="true">
+   <g class="toastL"><g transform="rotate(8 66 74)"><path class="d" pathLength="1" d="M60 14 H72 L70 42 Q66 47 62 42 Z" fill="none" stroke="#2f2a22" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M66 45 V72 M59 73 H73" fill="none" stroke="#2f2a22" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round"/><g class="f"><circle class="bub" cx="66" cy="36" r=".9" fill="#a3864d"/><circle class="bub" cx="64.5" cy="31" r=".8" fill="#a3864d" style="animation-delay:-.8s"/><circle class="bub" cx="67.5" cy="26" r=".7" fill="#a3864d" style="animation-delay:-1.5s"/></g></g></g>
+   <g class="toastR"><g transform="rotate(-8 94 74)"><path class="d" pathLength="1" d="M88 14 H100 L98 42 Q94 47 90 42 Z" fill="none" stroke="#2f2a22" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M94 45 V72 M87 73 H101" fill="none" stroke="#2f2a22" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round"/><g class="f"><circle class="bub" cx="94" cy="35" r=".9" fill="#a3864d" style="animation-delay:-.4s"/><circle class="bub" cx="95.5" cy="30" r=".8" fill="#a3864d" style="animation-delay:-1.1s"/><circle class="bub" cx="92.5" cy="25" r=".7" fill="#a3864d" style="animation-delay:-1.8s"/></g></g></g>
+   <g class="f"><g class="tw" stroke="#a3864d" stroke-width=".8" stroke-linecap="round"><path d="M80 9 V4 M75 10 L72 7 M85 10 L88 7"/></g></g></svg><time>6:00 pm</time><h3>Dinner, speeches &amp; performances</h3><p>Good food and a few surprises</p></div></article>
+      <article class="stop at-hall l"><span class="pin">VII</span><div class="note frame"><svg class="vig" viewBox="0 0 160 80" aria-hidden="true">
+   <path class="d" pathLength="1" d="M20 28 C56 16 104 44 140 32" fill="none" stroke="#2f2a22" stroke-width=".5" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M20 33 C56 21 104 49 140 37" fill="none" stroke="#2f2a22" stroke-width=".5" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M20 38 C56 26 104 54 140 42" fill="none" stroke="#2f2a22" stroke-width=".5" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M20 43 C56 31 104 59 140 47" fill="none" stroke="#2f2a22" stroke-width=".5" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M20 48 C56 36 104 64 140 52" fill="none" stroke="#2f2a22" stroke-width=".5" stroke-linecap="round" stroke-linejoin="round"/>
+   <g class="nt" style="animation-delay:0.00s"><ellipse cx="38" cy="33" rx="3.2" ry="2.3" transform="rotate(-20 38 33)" fill="#2f2a22"/><path d="M41 32 V17" stroke="#2f2a22" stroke-width=".8"/></g><g class="nt" style="animation-delay:0.45s"><ellipse cx="58" cy="32" rx="3.2" ry="2.3" transform="rotate(-20 58 32)" fill="#2f2a22"/><path d="M61 31 V16" stroke="#2f2a22" stroke-width=".8"/><path d="M61 16 q5 3 4 9" fill="none" stroke="#2f2a22" stroke-width=".8"/></g><g class="nt" style="animation-delay:0.90s"><ellipse cx="78" cy="38" rx="3.2" ry="2.3" transform="rotate(-20 78 38)" fill="#2f2a22"/><path d="M81 37 V22" stroke="#2f2a22" stroke-width=".8"/></g><g class="nt" style="animation-delay:1.35s"><ellipse cx="98" cy="44" rx="3.2" ry="2.3" transform="rotate(-20 98 44)" fill="#2f2a22"/><path d="M101 43 V28" stroke="#2f2a22" stroke-width=".8"/><path d="M101 28 q5 3 4 9" fill="none" stroke="#2f2a22" stroke-width=".8"/></g><g class="nt" style="animation-delay:1.80s"><ellipse cx="118" cy="44" rx="3.2" ry="2.3" transform="rotate(-20 118 44)" fill="#2f2a22"/><path d="M121 43 V28" stroke="#2f2a22" stroke-width=".8"/></g></svg><time>8:00 pm</time><h3>The dance floor opens</h3><p>Bring your best moves</p></div></article>
+      <article class="stop at-hall r" id="farewell"><span class="pin">VIII</span><div class="note frame"><svg class="vig" viewBox="0 0 160 80" aria-hidden="true">
+   <path class="d" pathLength="1" d="M8 72 H152" fill="none" stroke="#2f2a22" stroke-width=".6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1"/>
+   <path class="d" pathLength="1" d="M134 8 a11 11 0 1 0 0 20 a8.5 8.5 0 1 1 0 -20z" fill="none" stroke="#2f2a22" stroke-width=".8" stroke-linecap="round" stroke-linejoin="round"/>
+   <g class="f"><g class="tw" stroke="#a3864d" stroke-width=".7" stroke-linecap="round"><path d="M106 12 v-5 M103.5 9.5 h5"/></g><g class="tw" stroke="#a3864d" stroke-width=".6" stroke-linecap="round" style="animation-delay:-.7s"><path d="M150 36 v-4 M148 34 h4"/></g><g class="tw" stroke="#a3864d" stroke-width=".6" stroke-linecap="round" style="animation-delay:-1.3s"><path d="M118 28 v-4 M116 26 h4"/></g></g>
+   <g class="away"><path class="d" pathLength="1" d="M36 66 Q38 57 49 57 Q60 57 62 66 M76 66 Q78 57 89 57 Q99 57 102 64 M62 64 H76" fill="none" stroke="#2f2a22" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/>
+     <path class="d" pathLength="1" d="M44 57 V44 Q44 40 48 40 H61 Q64 40 65 43 L68 53 H90 Q96 53 98 57" fill="none" stroke="#2f2a22" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M48 43 H61 L63 50 H48Z M68 53 V45" fill="none" stroke="#2f2a22" stroke-width=".6" stroke-linecap="round" stroke-linejoin="round"/>
+     <path class="d" pathLength="1" d="M49 66 m-5.5 0 a5.5 5.5 0 1 0 11 0 a5.5 5.5 0 1 0 -11 0 M89 66 m-5.5 0 a5.5 5.5 0 1 0 11 0 a5.5 5.5 0 1 0 -11 0" fill="none" stroke="#2f2a22" stroke-width=".9" stroke-linecap="round" stroke-linejoin="round"/>
+     <path class="d" pathLength="1" d="M45 62 L53 70 M53 62 L45 70 M85 62 L93 70 M93 62 L85 70" fill="none" stroke="#2f2a22" stroke-width=".4" stroke-linecap="round" stroke-linejoin="round"/><path class="d" pathLength="1" d="M41 50 a4 4 0 1 0 0.01 0Z" fill="none" stroke="#2f2a22" stroke-width=".7" stroke-linecap="round" stroke-linejoin="round"/>
+     <circle class="f" cx="99" cy="55.5" r="1.6" fill="#a3864d"/><path class="d" pathLength="1" d="M36 60 C28 58 26 64 18 61 M36 62 C30 63 27 68 20 66" fill="none" stroke="#9a4c52" stroke-width=".7" stroke-linecap="round" stroke-linejoin="round"/></g></svg><time>10:00 pm</time><h3>Carriages &amp; a fond farewell</h3><p>Goodnight, with full hearts</p></div></article>
     </div>
     <a class="btn" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Janet+%26+Jude%27s+Wedding&dates=20270417T143000/20270417T220000&ctz=Europe/London&location=St+Helens+RC+Church%2C+8+Middle+Way%2C+Watford+WD24+6NJ&details=Ceremony+3%3A00+PM+at+St+Helens+RC+Church%2C+Watford.+Reception+from+4%3A30+PM+at+Sarratt+Village+Hall%2C+The+Green%2C+Sarratt%2C+Rickmansworth+WD3+6AS.">Save the date</a>
   </section>
@@ -548,6 +550,8 @@
     if (carS !== carTarget) follow.raf = requestAnimationFrame(drive);
   }
 
+  const seenIO = 'IntersectionObserver' in window && new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('seen'); seenIO.unobserve(e.target); } }), { threshold: .4 });
+  document.querySelectorAll('.stop .note').forEach(n => seenIO ? seenIO.observe(n) : n.classList.add('seen'));
   addEventListener('scroll', () => follow(), { passive: true });
   let resizeTimer;
   new ResizeObserver(() => { clearTimeout(resizeTimer); resizeTimer = setTimeout(build, 120); }).observe(route);
