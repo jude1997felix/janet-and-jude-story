@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Saturday 17 April 2027 · from Watford to Sarratt. Unfold the map of our day.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jude1997felix.github.io/janet-and-jude-story/">
+<meta property="og:title" content="Janet &amp; Jude · A map of our day">
+<meta property="og:description" content="Saturday 17 April 2027 · from Watford to Sarratt. Unfold the map of our day.">
+<meta property="og:image" content="https://jude1997felix.github.io/janet-and-jude-story/preview.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<title>Janet & Jude · A Map of Our Day</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&display=swap">
+<style>
+  /* Layout: a storybook map. A folded map opens onto a hill-top title scene, a signpost countdown,
+     then one long illustrated route from the church to the village hall that a little car drives
+     as you scroll, with each moment of the day pinned beside the road.
+     Single light look by choice: printed map paper, ink linework, field greens, a rose route. */
+  :root {
+    --paper: #f6efdf;
+    --paper-2: #efe4cb;
+    --card: #fffaf0;
+    --ink: #34402f;
+    --ink-soft: #6b735e;
+    --road: #ead9b0;
+    --road-edge: #cbb685;
+    --grass: #b7cf8e;
+    --grass-2: #8fb06a;
+    --tree: #6f9a4f;
+    --tree-2: #557e3c;
+    --water: #9fcbe0;
+    --roof: #c46f57;
+    --rose: #d2627a;
+    --gold: #c39a3e;
+    --wood: #a87b4c;
+    --display: "Fraunces", Georgia, "Times New Roman", serif;
+    --hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
+    /* faint contour lines, like the hills on a survey map */
+    --contours:
+      repeating-radial-gradient(circle at 12% 260px, transparent 0 22px, rgb(52 64 47 / .055) 22px 23.5px),
+      repeating-radial-gradient(circle at 92% 1400px, transparent 0 26px, rgb(52 64 47 / .05) 26px 27.5px);
+  }
+  html { scroll-behavior: smooth; }
+  img, svg { max-width: 100%; }
+  [hidden] { display: none !important; }
+  body {
+    margin: 0;
+    background: var(--contours), var(--paper);
+    color: var(--ink);
+    font: 400 1.12rem/1.55 var(--display);
+    font-variation-settings: "SOFT" 50;
+    padding-inline: 16px;
+    padding-block: 0 72px;
+    text-align: center;
+    overflow-x: hidden;
+  }
+  main { max-width: 920px; margin-inline: auto; display: grid; gap: 96px; }
+  section { display: grid; gap: 20px; justify-items: center; min-width: 0; }
+  p, h1, h2, h3 { margin: 0; }
+  :focus-visible { outline: 2px dashed var(--rose); outline-offset: 4px; }
+  .hand { font-family: var(--hand); font-weight: 500; font-size: 1.5rem; color: var(--rose); line-height: 1.1; }
+  .caps { font-size: .8rem; font-weight: 600; letter-spacing: .26em; text-transform: uppercase; color: var(--ink-soft); }
+  h2 { font: italic 600 clamp(2.2rem, 7vw, 3.2rem)/1.05 var(--display); font-variation-settings: "SOFT" 100, "WONK" 1; text-wrap: balance; }
+  .kicker { display: grid; gap: 4px; justify-items: center; }
+  .btn {
+    display: inline-block; padding: 10px 22px; border: 1.5px solid var(--ink); background: var(--card); color: var(--ink);
+    font: 600 .85rem/1 var(--display); letter-spacing: .16em; text-transform: uppercase; text-decoration: none; cursor: pointer;
+    box-shadow: 3px 3px 0 var(--ink); transition: translate .15s, box-shadow .15s;
+  }
+  .btn:hover { translate: 2px 2px; box-shadow: 1px 1px 0 var(--ink); }
+
+  /* ---------- Opening: a folded map ---------- */
+  #cover { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; padding: 24px 16px; }
+  #cover .half {
+    position: absolute; top: 0; bottom: 0; width: 50.5%;
+    background: var(--contours), var(--paper);
+    transition: translate 1.2s cubic-bezier(.7, 0, .2, 1) .35s, rotate 1.2s cubic-bezier(.7, 0, .2, 1) .35s;
+  }
+  #cover .half.l { left: 0; box-shadow: inset -26px 0 30px -24px rgb(52 64 47 / .35); }
+  #cover .half.r { right: 0; box-shadow: inset 26px 0 30px -24px rgb(52 64 47 / .35); }
+  /* the fold creases */
+  #cover .half::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 49.6%, rgb(52 64 47 / .08) 50%, transparent 50.4%); }
+  .face { position: relative; display: grid; gap: 14px; justify-items: center; transition: opacity .4s, scale .4s; }
+  .face h1 { font: italic 600 clamp(3rem, 14vw, 5.6rem)/1 var(--display); font-variation-settings: "SOFT" 100, "WONK" 1; }
+  .face h1 span { font: 700 1.1em/1 var(--hand); color: var(--rose); }
+  .compass { width: 132px; height: 132px; animation: drift 40s linear infinite; }
+  @keyframes drift { to { rotate: 360deg; } }
+  #cover.open { pointer-events: none; }
+  #cover.open .face { opacity: 0; scale: .94; }
+  #cover.open .half.l { translate: -104% 0; rotate: -4deg; }
+  #cover.open .half.r { translate: 104% 0; rotate: 4deg; }
+  #cover.gone { visibility: hidden; }
+
+  /* ---------- Title scene ---------- */
+  .hero { position: relative; padding-top: 28px; gap: 16px; }
+  .sky { position: absolute; inset: 0 calc(50% - 50vw) auto; height: 260px; overflow: hidden; pointer-events: none; }
+  .cloud {
+    position: absolute; width: 150px; height: 64px; top: var(--y); left: -180px; opacity: .9;
+    background: radial-gradient(circle at 32% 58%, #fff 0 22px, transparent 23px), radial-gradient(circle at 54% 42%, #fff 0 26px, transparent 27px),
+                radial-gradient(circle at 74% 60%, #fff 0 19px, transparent 20px), radial-gradient(ellipse 66px 14px at 52% 76%, #fff 0 99%, transparent);
+    animation: cloud var(--t) linear var(--d) infinite;
+  }
+  @keyframes cloud { to { translate: calc(100vw + 360px) 0; } }
+  .scene { width: min(100%, 720px); height: auto; overflow: visible; }
+  .scene .trail { stroke-dasharray: 3 9; animation: march 1.6s linear infinite; }
+  @keyframes march { to { stroke-dashoffset: -24; } }
+  .verse { font: italic 400 clamp(1.15rem, 4.2vw, 1.45rem)/1.4 var(--display); max-width: 30ch; }
+  .names { display: grid; gap: 2px; justify-items: center; }
+  .name { font: italic 600 clamp(3.6rem, 17vw, 7.2rem)/1.12 var(--display); font-variation-settings: "SOFT" 100, "WONK" 1; color: var(--ink); }
+  .amp { font: 700 clamp(2.2rem, 9vw, 3.6rem)/1 var(--hand); color: var(--rose); }
+  .invite-line { font-style: italic; font-size: clamp(1.1rem, 4.2vw, 1.35rem); text-wrap: balance; }
+  .ribbon {
+    background: var(--rose); color: var(--card); padding: 12px 40px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; font-size: clamp(.78rem, 3.3vw, .95rem);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 50%, 100% 100%, 0 100%, 16px 50%);
+  }
+  .scroll-hint { display: grid; justify-items: center; gap: 2px; margin-top: 10px; }
+  .scroll-hint::after { content: "↓"; font-size: 1.4rem; animation: bob 1.8s ease-in-out infinite; }
+  @keyframes bob { 50% { translate: 0 6px; } }
+  #cover:not(.gone) ~ main .hero > :not(.sky) { opacity: 0; }
+  #cover.gone ~ main .hero > :not(.sky) { animation: rise .9s both; animation-delay: calc(var(--i, 0) * .1s); }
+  @keyframes rise { from { opacity: 0; translate: 0 18px; } }
+
+  /* ---------- Countdown: a signpost ---------- */
+  .post { position: relative; display: grid; gap: 14px; justify-items: center; padding-block: 8px 46px; width: 100%; }
+  .post::before { content: ""; position: absolute; left: calc(50% - 8px); top: -12px; bottom: 0; width: 16px; border-radius: 4px 4px 0 0; background: linear-gradient(90deg, #8d6339, var(--wood) 40%, #b88c5b 60%, #8d6339); }
+  .post::after { content: ""; position: absolute; bottom: -6px; left: calc(50% - 60px); width: 120px; height: 14px; border-radius: 50%; background: var(--grass); }
+  .arm {
+    position: relative; width: 176px; padding: 10px 0; color: var(--card);
+    background: repeating-linear-gradient(0deg, transparent 0 7px, rgb(0 0 0 / .05) 7px 8px), linear-gradient(#b88c5b, var(--wood));
+    font: 600 .8rem/1.2 var(--display); letter-spacing: .14em; text-transform: uppercase;
+    transform-origin: var(--o); animation: creak 4s ease-in-out infinite alternate; animation-delay: var(--dl);
+  }
+  .arm b { display: block; font: 600 1.7rem/1.05 var(--display); letter-spacing: 0; font-variant-numeric: tabular-nums; }
+  .arm.r { translate: 41% 0; clip-path: polygon(0 0, 86% 0, 100% 50%, 86% 100%, 0 100%); padding-right: 18px; --o: 0 50%; }
+  .arm.l { translate: -41% 0; clip-path: polygon(14% 0, 100% 0, 100% 100%, 14% 100%, 0 50%); padding-left: 18px; --o: 100% 50%; }
+  @keyframes creak { from { rotate: -1.5deg; } to { rotate: 1.5deg; } }
+
+  /* ---------- The route ---------- */
+  .route { position: relative; display: grid; gap: 30px; width: 100%; padding-block: 8px; }
+  .route > * { position: relative; z-index: 1; }
+  .map { position: absolute; inset: 0; z-index: 0; overflow: visible; pointer-events: none; }
+  /* the car drives on its own layer so it passes over the pins rather than under them */
+  .map.drive { z-index: 2; }
+  .landmark { justify-self: center; display: grid; justify-items: center; gap: 2px; }
+  .landmark svg { width: 180px; height: auto; overflow: visible; }
+  .label { background: var(--paper); padding: 2px 12px; border-radius: 99px; }
+  .landmark .label { font-size: 1.6rem; color: var(--ink); }
+  .landmark .label small { display: block; font: 600 .7rem/1.4 var(--display); letter-spacing: .22em; text-transform: uppercase; color: var(--ink-soft); }
+  .stop { display: grid; grid-template-columns: 68px 1fr; align-items: center; }
+  .pin {
+    grid-column: 1; grid-row: 1; justify-self: center; width: 30px; height: 30px; border-radius: 50% 50% 50% 0; rotate: -45deg;
+    background: var(--ink-soft); box-shadow: 0 0 0 3px var(--paper); scale: .8; opacity: .55; transition: background .3s, scale .3s, opacity .3s;
+  }
+  .pin::after { content: ""; position: absolute; inset: 9px; border-radius: 50%; background: var(--card); }
+  .stop.reached .pin { background: var(--rose); scale: 1; opacity: 1; animation: drop .5s; }
+  @keyframes drop { 0% { translate: 0 -14px; } 60% { translate: 0 2px; } }
+  .note {
+    grid-column: 2; grid-row: 1; justify-self: start; text-align: left; min-width: 0; max-width: 340px;
+    background: var(--card); border: 1.5px solid var(--ink); padding: 12px 18px 14px; box-shadow: 4px 4px 0 rgb(52 64 47 / .14);
+    rotate: var(--tilt, -.8deg); transition: box-shadow .3s, translate .3s;
+  }
+  .stop:nth-of-type(even) .note { --tilt: .8deg; }
+  .stop.reached .note { box-shadow: 4px 4px 0 var(--rose); }
+  .note .hand { font-size: 1.6rem; font-weight: 700; }
+  .note h3 { font: 600 1.15rem/1.25 var(--display); }
+  .note p { font-style: italic; color: var(--ink-soft); font-size: 1rem; }
+  .interlude { min-height: 340px; display: grid; align-items: center; }
+  .interlude .label { justify-self: start; font: 500 1.45rem/1.1 var(--hand); color: var(--ink); max-width: 15ch; text-align: left; rotate: -3deg; margin-left: 60px; }
+  .hearts { position: absolute; left: 50%; top: 20%; pointer-events: none; }
+  .hearts i { position: absolute; font-style: normal; color: var(--rose); opacity: 0; font-size: 1.3rem; }
+  .arrived .hearts i { animation: float 2.4s ease-out both; animation-delay: calc(var(--n) * .18s); }
+  @keyframes float { 0% { opacity: 0; translate: 0 0; } 20% { opacity: 1; } 100% { opacity: 0; translate: var(--x) -110px; rotate: var(--r); } }
+  @media (min-width: 760px) {
+    .stop { grid-template-columns: 1fr 150px 1fr; }
+    .pin { grid-column: 2; }
+    .stop.l .pin { justify-self: start; margin-left: 22px; }
+    .stop.r .pin { justify-self: end; margin-right: 22px; }
+    .stop.l .note { grid-column: 1; justify-self: end; text-align: right; }
+    .stop.r .note { grid-column: 3; }
+    .interlude { min-height: 380px; }
+    .interlude .label { margin-left: 8%; }
+  }
+  .map .tree, .map .sheep { transform-box: fill-box; transform-origin: 50% 100%; }
+  .map .tree { animation: sway 5s ease-in-out infinite alternate; animation-delay: var(--dl); }
+  .map .sheep { animation: graze 3s ease-in-out infinite alternate; animation-delay: var(--dl); }
+  @keyframes sway { from { rotate: -2deg; } to { rotate: 2deg; } }
+  @keyframes graze { 50% { translate: 0 1px; rotate: 3deg; } }
+  .drive .cans { opacity: 0; transition: opacity .4s; }
+  .drive .married .cans { opacity: 1; }
+
+  /* ---------- Places, as map legend cards ---------- */
+  .venues { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 28px; width: 100%; }
+  .legend {
+    display: grid; gap: 10px; justify-items: center; padding: 22px 18px 24px; min-width: 0;
+    background: var(--card); border: 1.5px solid var(--ink); outline: 1px solid var(--ink); outline-offset: -7px;
+  }
+  .legend svg { width: 130px; height: auto; }
+  .legend h3 { font: italic 600 1.5rem/1.1 var(--display); font-variation-settings: "SOFT" 100, "WONK" 1; }
+  address { font-style: normal; }
+
+  /* ---------- RSVP ticket ---------- */
+  .ticket {
+    display: grid; gap: 2px; padding: 16px 44px; color: var(--card); text-decoration: none; background: var(--rose);
+    -webkit-mask: radial-gradient(circle 12px at 0 50%, transparent 11px, #000 12px) left / 51% 100% no-repeat, radial-gradient(circle 12px at 100% 50%, transparent 11px, #000 12px) right / 51% 100% no-repeat;
+    mask: radial-gradient(circle 12px at 0 50%, transparent 11px, #000 12px) left / 51% 100% no-repeat, radial-gradient(circle 12px at 100% 50%, transparent 11px, #000 12px) right / 51% 100% no-repeat;
+    transition: rotate .2s, scale .2s;
+  }
+  .ticket:hover { rotate: -2deg; scale: 1.04; }
+  .ticket b { font: 600 1.6rem/1 var(--display); letter-spacing: .14em; }
+  .ticket span { font: 500 1.2rem/1 var(--hand); }
+  #replay { background: none; border: 0; cursor: pointer; color: var(--ink-soft); font: italic 1rem var(--display); text-decoration: underline; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition-duration: .01s !important; transition-delay: 0s !important; }
+  }
+</style>
+<noscript><style>#cover { display: none; } #cover ~ main .hero > * { opacity: 1 !important; }</style></noscript>
+</head>
+<body>
+
+<!-- shared drawings -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="church" viewBox="0 0 170 132">
+      <ellipse cx="85" cy="124" rx="80" ry="8" fill="#b7cf8e"/>
+      <g fill="#6f9a4f" stroke="#34402f" stroke-width="1.2"><circle cx="20" cy="98" r="14"/><circle cx="30" cy="106" r="10"/><circle cx="150" cy="100" r="13"/><circle cx="141" cy="108" r="9"/></g>
+      <g stroke="#34402f" stroke-width="1.6" stroke-linejoin="round">
+        <rect x="42" y="64" width="86" height="58" fill="#f3e9d6"/>
+        <path d="M36 66 L85 38 L134 66 Z" fill="#c46f57"/>
+        <rect x="70" y="30" width="30" height="92" fill="#efe2c8"/>
+        <path d="M67 32 L85 10 L103 32 Z" fill="#c46f57"/>
+        <path d="M85 0 V10 M80 4 H90" fill="none"/>
+        <circle cx="85" cy="52" r="7" fill="#9fcbe0"/>
+        <path d="M78 122 V106 a7 7 0 0 1 14 0 V122" fill="#7b5a3c"/>
+        <rect x="51" y="80" width="10" height="18" rx="5" fill="#9fcbe0"/><rect x="109" y="80" width="10" height="18" rx="5" fill="#9fcbe0"/>
+      </g>
+    </symbol>
+    <symbol id="hall" viewBox="0 0 180 132">
+      <ellipse cx="90" cy="124" rx="86" ry="8" fill="#b7cf8e"/>
+      <g fill="#6f9a4f" stroke="#34402f" stroke-width="1.2"><circle cx="160" cy="96" r="15"/><circle cx="150" cy="106" r="10"/></g>
+      <g stroke="#34402f" stroke-width="1.6" stroke-linejoin="round">
+        <rect x="32" y="62" width="112" height="60" fill="#f6ecd8"/>
+        <path d="M24 64 L88 30 L152 64 Z" fill="#c46f57"/>
+        <circle cx="88" cy="50" r="6" fill="#9fcbe0"/>
+        <rect x="80" y="92" width="17" height="30" fill="#7fa25a"/>
+        <rect x="44" y="80" width="22" height="18" fill="#9fcbe0"/><rect x="111" y="80" width="22" height="18" fill="#9fcbe0"/>
+        <path d="M55 80 V98 M44 89 H66 M122 80 V98 M111 89 H133" fill="none" stroke-width="1.1"/>
+      </g>
+      <path d="M30 66 Q88 84 146 66" fill="none" stroke="#34402f" stroke-width=".8"/>
+      <g stroke="#34402f" stroke-width=".6"><path d="M38 68 l5 9 l5 -7Z" fill="#d2627a"/><path d="M56 72 l5 9 l5 -7Z" fill="#c39a3e"/><path d="M74 75 l5 9 l5 -8Z" fill="#9fcbe0"/><path d="M93 75 l5 9 l5 -8Z" fill="#d2627a"/><path d="M111 72 l5 9 l5 -7Z" fill="#c39a3e"/><path d="M129 68 l5 9 l5 -7Z" fill="#9fcbe0"/></g>
+    </symbol>
+    <symbol id="compass" viewBox="-60 -60 120 120">
+      <circle r="56" fill="#fffaf0" stroke="#34402f" stroke-width="1.5"/>
+      <circle r="48" fill="none" stroke="#34402f" stroke-width=".6" stroke-dasharray="1 3"/>
+      <g stroke="#34402f" stroke-width="1" stroke-linejoin="round">
+        <path d="M0 -44 L7 -7 L0 0Z M0 44 L-7 7 L0 0Z M44 0 L7 7 L0 0Z M-44 0 L-7 -7 L0 0Z" fill="#34402f"/>
+        <path d="M0 -44 L-7 -7 L0 0Z M0 44 L7 7 L0 0Z M44 0 L7 -7 L0 0Z M-44 0 L-7 7 L0 0Z" fill="#fffaf0"/>
+        <path d="M0 -28 L4 -4 L0 0Z M28 0 L4 4 L0 0Z M0 28 L-4 4 L0 0Z M-28 0 L-4 -4 L0 0Z" transform="rotate(45)" fill="#d2627a"/>
+      </g>
+      <text y="-46" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-weight="700" font-size="11" fill="#d2627a" dy="-1">N</text>
+      <circle r="3" fill="#c39a3e" stroke="#34402f"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div id="cover">
+  <div class="half l"></div><div class="half r"></div>
+  <div class="face">
+    <svg class="compass" aria-hidden="true"><use href="#compass"/></svg>
+    <p class="hand">a map of our day</p>
+    <h1>Janet <span>&amp;</span> Jude</h1>
+    <p class="caps">Watford to Sarratt · 17 April 2027</p>
+    <button class="btn" id="unfold" type="button">Unfold the map</button>
+  </div>
+</div>
+
+<main>
+  <section class="hero">
+    <div class="sky" aria-hidden="true">
+      <span class="cloud" style="--y:20px;--t:70s;--d:-10s"></span>
+      <span class="cloud" style="--y:90px;--t:95s;--d:-55s;scale:.7"></span>
+      <span class="cloud" style="--y:150px;--t:80s;--d:-35s;scale:.85"></span>
+    </div>
+    <svg class="scene" viewBox="0 0 720 190" aria-hidden="true" style="--i:0">
+      <path d="M0 170 C90 120 170 118 250 140 S420 170 500 136 S650 110 720 140 V190 H0Z" fill="#b7cf8e"/>
+      <path d="M0 182 C120 156 230 160 340 176 S560 190 720 168 V190 H0Z" fill="#8fb06a"/>
+      <path class="trail" d="M150 150 C230 175 300 120 370 150 S500 175 580 150" fill="none" stroke="#d2627a" stroke-width="3" stroke-linecap="round"/>
+      <use href="#church" x="62" y="62" width="130" height="100"/>
+      <use href="#hall" x="520" y="64" width="140" height="102"/>
+      <text x="128" y="186" font-family="Caveat, cursive" font-size="22" fill="#34402f" text-anchor="middle">Watford</text>
+      <text x="590" y="186" font-family="Caveat, cursive" font-size="22" fill="#34402f" text-anchor="middle">Sarratt</text>
+    </svg>
+    <p class="verse" style="--i:1">“Let all you do be done in love.”<br><span class="caps">1 Corinthians 16:14</span></p>
+    <div class="names" style="--i:2">
+      <p class="caps">Daughter of Thomas and Josephine</p>
+      <span class="name">Janet</span>
+      <span class="amp">&amp;</span>
+      <span class="name">Jude</span>
+      <p class="caps">Son of Selva and Rani</p>
+    </div>
+    <p class="invite-line" style="--i:3">joyfully invite you to their wedding celebration</p>
+    <p class="ribbon" style="--i:4">Saturday · 17 April · 2027</p>
+    <a class="scroll-hint hand" href="#road" style="--i:5;text-decoration:none">follow the road</a>
+  </section>
+
+  <section>
+    <div class="kicker"><p class="hand">the road ahead</p><h2 id="count-title">How far to go</h2></div>
+    <div class="post" id="count">
+      <div class="arm r" style="--dl:0s"><b id="cd">0</b>days</div>
+      <div class="arm l" style="--dl:-1s"><b id="ch">0</b>hours</div>
+      <div class="arm r" style="--dl:-2s"><b id="cm">0</b>minutes</div>
+      <div class="arm l" style="--dl:-3s"><b id="cs">0</b>seconds</div>
+    </div>
+    <p class="soft" style="font-style:italic">until we say “I do”</p>
+  </section>
+
+  <section id="road">
+    <div class="kicker"><p class="hand">Saturday 17 April</p><h2>The day, mile by mile</h2></div>
+    <div class="route" id="route">
+      <svg class="map" id="map" aria-hidden="true"></svg>
+      <svg class="map drive" id="drive" aria-hidden="true"></svg>
+      <div class="landmark church">
+        <svg aria-hidden="true" viewBox="0 0 170 132"><use href="#church"/></svg>
+        <p class="label hand">St Helens RC Church<small>Watford</small></p>
+      </div>
+      <article class="stop l"><span class="pin"></span><div class="note"><p class="hand">2:30 pm</p><h3>Guest arrival &amp; seating</h3><p>Find a seat and say your hellos</p></div></article>
+      <article class="stop r"><span class="pin"></span><div class="note"><p class="hand">3:00 pm</p><h3>Church wedding ceremony</h3><p>Here comes the bride</p></div></article>
+      <article class="stop l" id="vows"><span class="pin"></span><div class="note"><p class="hand">3:30 pm</p><h3>Exchange of vows &amp; rings</h3><p>Two “I do”s and a few happy tears</p></div></article>
+      <div class="interlude"><p class="label">a short drive through the Hertfordshire countryside</p></div>
+      <article class="stop r"><span class="pin"></span><div class="note"><p class="hand">4:30 pm</p><h3>Guest arrival &amp; welcome</h3><p>The party moves to Sarratt</p></div></article>
+      <article class="stop l"><span class="pin"></span><div class="note"><p class="hand">5:30 pm</p><h3>Couple arrival &amp; cake cutting</h3><p>The newlyweds make their entrance</p></div></article>
+      <article class="stop r"><span class="pin"></span><div class="note"><p class="hand">6:00 pm</p><h3>Dinner, speeches &amp; performances</h3><p>Good food and a few surprises</p></div></article>
+      <article class="stop l"><span class="pin"></span><div class="note"><p class="hand">8:00 pm</p><h3>Dance floor opens</h3><p>Bring your best moves</p></div></article>
+      <article class="stop r"><span class="pin"></span><div class="note"><p class="hand">10:00 pm</p><h3>Farewell &amp; guest send-off</h3><p>Goodnight, with full hearts</p></div></article>
+      <div class="landmark hall" id="hall">
+        <span class="hearts" aria-hidden="true"><i style="--n:0;--x:-30px;--r:-20deg">♥</i><i style="--n:1;--x:10px;--r:15deg">♥</i><i style="--n:2;--x:34px;--r:25deg">♥</i><i style="--n:3;--x:-12px;--r:-8deg">♥</i><i style="--n:4;--x:22px;--r:5deg">♥</i></span>
+        <svg aria-hidden="true" viewBox="0 0 180 132"><use href="#hall"/></svg>
+        <p class="label hand">Sarratt Village Hall<small>on the green</small></p>
+      </div>
+    </div>
+    <a class="btn" target="_blank" rel="noopener" href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Janet+%26+Jude%27s+Wedding&dates=20270417T143000/20270417T220000&ctz=Europe/London&location=St+Helens+RC+Church%2C+8+Middle+Way%2C+Watford+WD24+6NJ&details=Ceremony+3%3A00+PM+at+St+Helens+RC+Church%2C+Watford.+Reception+from+4%3A30+PM+at+Sarratt+Village+Hall%2C+The+Green%2C+Sarratt%2C+Rickmansworth+WD3+6AS.">Save the date</a>
+  </section>
+
+  <section>
+    <div class="kicker"><p class="hand">the legend</p><h2>Where to find us</h2></div>
+    <div class="venues">
+      <div class="legend">
+        <svg aria-hidden="true" viewBox="0 0 170 132"><use href="#church"/></svg>
+        <p class="caps">The ceremony</p>
+        <h3>St Helens RC Church</h3>
+        <address>8 Middle Way<br>Watford WD24 6NJ</address>
+        <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=St+Helens+RC+Church%2C+8+Middle+Way%2C+Watford+WD24+6NJ">Open map</a>
+      </div>
+      <div class="legend">
+        <svg aria-hidden="true" viewBox="0 0 180 132"><use href="#hall"/></svg>
+        <p class="caps">The reception</p>
+        <h3>Sarratt Village Hall</h3>
+        <address>The Green, Sarratt<br>Rickmansworth WD3 6AS</address>
+        <a class="btn" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Sarratt+Village+Hall%2C+The+Green%2C+Sarratt%2C+Rickmansworth+WD3+6AS">Open map</a>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="kicker"><p class="hand">save us a seat</p><h2>Will you join us on the road?</h2></div>
+    <p>Please let us know if you can make it.</p>
+    <a class="ticket" target="_blank" rel="noopener" href="https://docs.google.com/forms/d/e/1FAIpQLSfyhvziJib75CIhdgRMGpbVHAYbYwiWZ6ob_ptyElYWHiQrDA/viewform"><b>RSVP</b><span>admit one, with love</span></a>
+  </section>
+
+  <section>
+    <svg class="compass" aria-hidden="true" style="width:96px;height:96px"><use href="#compass"/></svg>
+    <p class="hand" style="font-size:2rem">See you on the 17th</p>
+    <p>With love, Janet &amp; Jude</p>
+    <button id="replay" type="button">Fold the map back up</button>
+  </section>
+</main>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const cover = $('cover');
+  $('unfold').onclick = () => { cover.classList.add('open'); setTimeout(() => cover.classList.add('gone'), 1500); };
+  $('replay').onclick = () => { scrollTo(0, 0); cover.classList.remove('open', 'gone'); };
+
+  const wedding = new Date('2027-04-17T15:00:00+01:00');
+  (function tick() {
+    const s = Math.floor((wedding - Date.now()) / 1000);
+    if (s <= 0) { $('count-title').textContent = 'We made it!'; $('count').hidden = true; return; }
+    $('cd').textContent = Math.floor(s / 86400);
+    $('ch').textContent = Math.floor(s / 3600) % 24;
+    $('cm').textContent = Math.floor(s / 60) % 60;
+    $('cs').textContent = s % 60;
+    setTimeout(tick, 1000);
+  })();
+
+  // ---------- The route: a road through every pin, scenery in the gaps, and a car that follows the reader ----------
+  const route = $('route'), map = $('map'), drivelayer = $('drive'), ns = 'http://www.w3.org/2000/svg';
+  let road, samples = [], total = 0, stops = [], vowsLen = 0, carLen = 0, carTarget = 0, car;
+
+  // seeded so the countryside looks the same on every visit
+  const seeded = seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+
+  // Catmull-Rom through the points, as cubic Béziers
+  const smooth = p => p.reduce((d, q, i) => {
+    if (!i) return `M${q.x} ${q.y}`;
+    const a = p[i - 2] || p[i - 1], b = p[i - 1], c = q, e = p[i + 1] || q;
+    return d + ` C${b.x + (c.x - a.x) / 6} ${b.y + (c.y - a.y) / 6} ${c.x - (e.x - b.x) / 6} ${c.y - (e.y - b.y) / 6} ${c.x} ${c.y}`;
+  }, '');
+
+  const tree = (x, y, s, r) => `<g class="tree" style="--dl:${(-r * 5).toFixed(2)}s" transform="translate(${x} ${y}) scale(${s})"><g transform-origin="0 0"><rect x="-1.6" y="-7" width="3.2" height="8" fill="#8a6a48"/><circle cy="-15" r="10" fill="#6f9a4f" stroke="#34402f" stroke-width=".9"/><circle cx="-7" cy="-9" r="6.5" fill="#557e3c" stroke="#34402f" stroke-width=".9"/><circle cx="7" cy="-10" r="6.5" fill="#6f9a4f" stroke="#34402f" stroke-width=".9"/></g></g>`;
+  const house = (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s})" stroke="#34402f" stroke-width=".9" stroke-linejoin="round"><rect x="-10" y="-11" width="20" height="12" fill="#f3e9d6"/><path d="M-12 -11 L0 -21 L12 -11Z" fill="#c46f57"/><rect x="-2" y="-6" width="4" height="7" fill="#7b5a3c"/></g>`;
+  const sheep = (x, y, s, r) => `<g class="sheep" style="--dl:${(-r * 3).toFixed(2)}s" transform="translate(${x} ${y}) scale(${s})"><g><path d="M-4 3 v4 M3 3 v4" stroke="#34402f" stroke-width="1.2"/><ellipse cx="0" cy="0" rx="8" ry="5.5" fill="#fff" stroke="#34402f" stroke-width=".9"/><ellipse cx="8" cy="-1.5" rx="2.8" ry="2.3" fill="#34402f"/></g></g>`;
+  const posy = (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s})" stroke="#34402f" stroke-width=".6"><path d="M-4 0 q2 -6 4 -8 M3 0 q-1 -5 2 -7" stroke="#557e3c" fill="none"/><circle cx="0" cy="-8" r="2.6" fill="#d2627a"/><circle cx="5" cy="-7" r="2.2" fill="#c39a3e"/><circle cx="-4" cy="-3" r="2" fill="#9fcbe0"/></g>`;
+
+  function build() {
+    const R = route.getBoundingClientRect(), W = route.clientWidth, H = route.scrollHeight, wide = W >= 700;
+    const box = el => { const r = el.getBoundingClientRect(); return { x: r.left - R.left, y: r.top - R.top, w: r.width, h: r.height, cx: r.left - R.left + r.width / 2, cy: r.top - R.top + r.height / 2 }; };
+    const pts = [], blocks = [];
+    const church = box(route.querySelector('.church svg')), hall = box(route.querySelector('.hall svg'));
+    pts.push({ x: church.cx, y: church.y + church.h - 6 });
+    stops = [];
+    for (const el of route.children) {
+      if (el.classList.contains('stop')) {
+        const p = box(el.querySelector('.pin')), last = pts[pts.length - 1];
+        // a gentle sideways bend between pins so the road wanders like a country lane
+        pts.push({ x: (last.x + p.cx) / 2 + (pts.length % 2 ? 1 : -1) * (wide ? 46 : 12), y: (last.y + p.cy) / 2 });
+        pts.push({ x: p.cx, y: p.cy + 4 });
+        stops.push({ el, x: p.cx, y: p.cy });
+        blocks.push(box(el.querySelector('.note')));
+      } else if (el.classList.contains('interlude')) {
+        const b = box(el);
+        [[.18, .72], [.5, .26], [.82, .7]].forEach(([fy, fx]) => pts.push({ x: W * fx, y: b.y + b.h * fy }));
+        blocks.push(box(el.querySelector('.label')));
+        var meadow = b;
+      }
+    }
+    pts.push({ x: hall.cx, y: hall.y + 10 });
+    blocks.push(church, hall, box(route.querySelector('.church .label')), box(route.querySelector('.hall .label')));
+
+    for (const svg of [map, drivelayer]) { svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('width', W); svg.setAttribute('height', H); }
+    const d = smooth(pts), rnd = seeded(170427);
+    let art = '';
+    // patchwork fields and a stream in the countryside stretch
+    if (meadow) {
+      for (let i = 0; i < 4; i++) {
+        const fw = W * (.3 + rnd() * .25), fh = 70 + rnd() * 60, fx = (i % 2 ? W * .5 : 0) + rnd() * W * .15, fy = meadow.y + i * meadow.h / 4 + rnd() * 20;
+        art += `<rect x="${fx}" y="${fy}" width="${fw}" height="${fh}" rx="22" fill="${i % 2 ? '#b7cf8e' : '#c9dba6'}" opacity=".55" transform="rotate(${(rnd() * 8 - 4).toFixed(1)} ${fx + fw / 2} ${fy + fh / 2})"/>`;
+      }
+      const sy = meadow.y + meadow.h * .64;
+      art += `<path d="M-20 ${sy} C${W * .25} ${sy - 30} ${W * .45} ${sy + 34} ${W * .7} ${sy + 4} S${W + 10} ${sy - 18} ${W + 30} ${sy + 6}" fill="none" stroke="#9fcbe0" stroke-width="12" stroke-linecap="round"/>`;
+      art += `<path d="M-20 ${sy} C${W * .25} ${sy - 30} ${W * .45} ${sy + 34} ${W * .7} ${sy + 4} S${W + 10} ${sy - 18} ${W + 30} ${sy + 6}" fill="none" stroke="#d4ebf5" stroke-width="2" stroke-dasharray="10 14"/>`;
+      var streamY = sy;
+    }
+    art += `<path d="${d}" fill="none" stroke="#cbb685" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/>`;
+    art += `<path id="road" d="${d}" fill="none" stroke="#ead9b0" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>`;
+    art += `<path d="${d}" fill="none" stroke="#fffaf0" stroke-width="1.6" stroke-dasharray="8 9"/>`;
+    art += `<path id="trail" d="${d}" fill="none" stroke="#d2627a" stroke-width="3.2" stroke-linecap="round"/>`;
+    map.innerHTML = art;
+    road = map.querySelector('#road');
+    total = road.getTotalLength();
+    samples = [];
+    for (let l = 0; l <= total; l += 6) { const p = road.getPointAtLength(l); samples.push({ l, x: p.x, y: p.y }); }
+
+    const g = document.createElementNS(ns, 'g');
+    let scenery = '';
+    // a little bridge where the road meets the stream
+    if (streamY !== undefined) {
+      const s = samples.reduce((a, b) => Math.abs(b.y - streamY) < Math.abs(a.y - streamY) ? b : a), q = road.getPointAtLength(Math.min(s.l + 2, total));
+      const ang = Math.atan2(q.y - s.y, q.x - s.x) * 180 / Math.PI;
+      scenery += `<g transform="translate(${s.x} ${s.y}) rotate(${ang})" stroke="#34402f" stroke-width="1.4" stroke-linecap="round"><rect x="-16" y="-12" width="32" height="24" fill="#d8c294"/><path d="M-18 -13 H18 M-18 13 H18" stroke-width="2.4"/></g>`;
+    }
+    // scatter trees, cottages, sheep and posies wherever there is room
+    const near = (x, y, r) => samples.some(s => (s.x - x) ** 2 + (s.y - y) ** 2 < r * r);
+    const blocked = (x, y, pad) => blocks.some(b => x > b.x - pad && x < b.x + b.w + pad && y > b.y - pad - 20 && y < b.y + b.h + pad);
+    const step = wide ? 54 : 40;
+    for (let y = 30; y < H - 10; y += step) for (let x = 14; x < W - 10; x += step) {
+      const px = x + (rnd() - .5) * step * .7, py = y + (rnd() - .5) * step * .7, r = rnd(), keep = rnd();
+      const inMeadow = meadow && py > meadow.y && py < meadow.y + meadow.h;
+      if (keep < (inMeadow ? .25 : .45) || px < 12 || px > W - 12 || near(px, py, 38) || blocked(px, py, 14)) continue;
+      if (streamY !== undefined && Math.abs(py - streamY) < 22) continue;
+      const s = .75 + rnd() * .5;
+      scenery += inMeadow
+        ? (r < .3 ? sheep(px, py, s, r) : r < .7 ? tree(px, py, s, r) : r < .82 ? house(px, py, s) : posy(px, py, s))
+        : (r < .6 ? tree(px, py, s, r) : r < .9 ? posy(px, py, s) : house(px, py, s));
+    }
+    g.innerHTML = scenery;
+    map.append(...g.childNodes);
+    // the wedding car, seen from above; tin cans appear once the vows are said
+    drivelayer.innerHTML = `<g id="car"><g transform="scale(1.3)"><g class="cans" stroke="#34402f" stroke-width=".7"><path d="M0 14 L-7 30 M0 14 L0 33 M0 14 L7 30" fill="none"/><rect x="-10" y="29" width="6" height="7" rx="1" fill="#cfd3d6"/><rect x="-3" y="32" width="6" height="7" rx="1" fill="#cfd3d6"/><rect x="4" y="29" width="6" height="7" rx="1" fill="#cfd3d6"/></g><rect x="-9" y="-16" width="18" height="31" rx="6" fill="#fffaf0" stroke="#34402f" stroke-width="1.4"/><rect x="-6.5" y="-10" width="13" height="7" rx="2" fill="#bcd7e3" stroke="#34402f" stroke-width=".8"/><rect x="-6.5" y="6" width="13" height="5" rx="1.5" fill="#bcd7e3" stroke="#34402f" stroke-width=".8"/><path d="M-9 0 H9" stroke="#d2627a" stroke-width="2.6"/><circle cx="-3" cy="0" r="2.6" fill="#d2627a"/><circle cx="3" cy="0" r="2.6" fill="#d2627a"/></g></g>`;
+    car = drivelayer.querySelector('#car');
+
+    const closest = (x, y) => samples.reduce((a, b) => (b.x - x) ** 2 + (b.y - y) ** 2 < (a.x - x) ** 2 + (a.y - y) ** 2 ? b : a).l;
+    stops.forEach(s => s.l = closest(s.x, s.y));
+    vowsLen = stops.find(s => s.el.id === 'vows')?.l ?? 0;
+    map.querySelector('#trail').style.strokeDasharray = `${total} ${total}`;
+    follow(true);
+  }
+
+  // the car sits where the middle of the screen meets the road
+  function follow(jump) {
+    if (!samples.length) return;
+    const target = innerHeight * .55 - route.getBoundingClientRect().top;
+    const s = samples.find(p => p.y >= target) || samples[samples.length - 1];
+    carTarget = target < 0 ? 0 : s.l;
+    if (jump) carLen = carTarget;
+    if (!follow.raf) follow.raf = requestAnimationFrame(drive);
+  }
+  function drive() {
+    follow.raf = 0;
+    carLen += (carTarget - carLen) * .12;
+    if (Math.abs(carTarget - carLen) < .5) carLen = carTarget;
+    const p = road.getPointAtLength(carLen), q = road.getPointAtLength(Math.min(carLen + 3, total)), b = road.getPointAtLength(Math.max(carLen - 3, 0));
+    const ang = Math.atan2(q.y - b.y, q.x - b.x) * 180 / Math.PI + 90;
+    car.setAttribute('transform', `translate(${p.x} ${p.y}) rotate(${ang})`);
+    car.classList.toggle('married', carLen >= vowsLen);
+    map.querySelector('#trail').style.strokeDashoffset = total - carLen;
+    stops.forEach(s => s.el.classList.toggle('reached', carLen >= s.l - 8));
+    if (carLen >= total - 12) $('hall').classList.add('arrived');
+    if (carLen !== carTarget) follow.raf = requestAnimationFrame(drive);
+  }
+
+  addEventListener('scroll', () => follow(), { passive: true });
+  let resizeTimer;
+  new ResizeObserver(() => { clearTimeout(resizeTimer); resizeTimer = setTimeout(build, 120); }).observe(route);
+  document.fonts.ready.then(build);
+</script>
+</body>
+</html>
